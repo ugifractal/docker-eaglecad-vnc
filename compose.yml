@@ -1,0 +1,16 @@
+services:
+  eaglecad:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eagle7-vnc-container
+    ports:
+      - "5901:5901" # Port untuk VNC Client (seperti TigerVNC / RealVNC)
+      - "6080:6080" # Port untuk NoVNC (Akses via Web Browser)
+    volumes:
+      - "${DOCKER_DATA_PATH}/eagle:/root/projects"
+
+    environment:
+      - USER=root
+    restart: unless-stopped
