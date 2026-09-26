@@ -17,11 +17,13 @@ cd docker-eaglecad-vnc
 ```
 
 ## Quickstart
-1. Set the data path in `.env.docker`: `DOCKER_DATA_PATH=<host dir>` (projects live in `<host dir>/eagle`)
-2. Build + run: `docker compose --env-file .env.docker up --build -d`
-3. Connect VNC to `localhost:5901`, password `password`
-4. Launch EAGLE: double-click **EAGLE 7.7.0** on the desktop, or run `eagle &` in Xfce Terminal
-5. Open your project under `/root/projects` (mounted from host)
+1. Place your licensed installer in this directory as `eagle-lin64-7.7.0.run`
+   (same folder as the `Dockerfile`; the build fails without it)
+2. Set the data path in `.env.docker`: `DOCKER_DATA_PATH=<host dir>` (projects live in `<host dir>/eagle`)
+3. Build + run: `docker compose --env-file .env.docker up --build -d`
+4. Connect VNC to `localhost:5901`, password `password`
+5. Launch EAGLE: double-click **EAGLE 7.7.0** on the desktop, or run `eagle &` in Xfce Terminal
+6. Open your project under `/root/projects` (mounted from host)
 
 ## Notes
 - Screen size is `1280x800` (set in `Dockerfile CMD`).
