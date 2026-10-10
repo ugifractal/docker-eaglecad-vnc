@@ -52,11 +52,22 @@ RUN mkdir /root/.vnc \
     && chmod 600 /root/.vnc/passwd
 
 # Create xstartup file to properly launch the XFCE Desktop environment inside TigerVNC
+# Anti-sleep: X blanking off (default timeout 600s blanks VNC after 10 min idle)
 RUN echo "#!/bin/sh\n\
 unset SESSION_MANAGER\n\
 unset DBUS_SESSION_BUS_ADDRESS\n\
+xset s off\n\
+xset s noblank\n\
+xset -dpms || true\n\
 exec startxfce4" > /root/.vnc/xstartup \
     && chmod +x /root/.vnc/xstartup
+
+# Disable XFCE auto-sleep/lock: light-locker locks root out (no password to unlock),
+# power-manager + xscreensaver blank the VNC framebuffer on idle
+RUN mkdir -p /root/.config/autostart \
+    && printf '[Desktop Entry]\nHidden=true\n' > /root/.config/autostart/light-locker.desktop \
+    && printf '[Desktop Entry]\nHidden=true\n' > /root/.config/autostart/xfce4-power-manager.desktop \
+    && printf '[Desktop Entry]\nHidden=true\n' > /root/.config/autostart/xscreensaver.desktop
 
 # 6. Copy and extract Eagle CAD v7 Linux installer
 # NOTE: installer takes the BASE dir as a positional arg ($0 /opt -> /opt/eagle-7.7.0).
